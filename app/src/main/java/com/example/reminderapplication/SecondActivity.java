@@ -2,41 +2,22 @@ package com.example.reminderapplication;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-
 
 import java.sql.Time;
 import java.util.Calendar;
 
-//import static com.example.reminderapplication.Notifies.CHANNEL_1_ID;
-//import static com.example.reminderapplication.Notifies.CHANNEL_2_ID;
-
-
-
 public class SecondActivity extends AppCompatActivity {
-
-    public static final String CHANNEL_1_ID = "channel1";
-    public static final String CHANNEL_2_ID = "channel2";
-
-
     Button backbuttonView;
     private DatePicker datePicker;
     private TimePicker timePicker;
@@ -45,29 +26,15 @@ public class SecondActivity extends AppCompatActivity {
     private TextView dateView;
     private TextView timeView;
 
-    private TextView title;
     private int year, month, day, hour ,min ;
-
-    private RadioButton high ;
-    private RadioButton low ;
-    private NotificationManagerCompat notificationManager;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
 
 
-        //notificationManager = NotificationManagerCompat.from(this);
-        //NotificationManager manager = (NotificationManager) getSystemService()
-
         dateView = (TextView) findViewById(R.id.dateView);
         timeView = (TextView) findViewById(R.id.timeView);
-
-        title = (TextView)  findViewById(R.id.title);
-
-        high = (RadioButton)  findViewById(R.id.highPriority);
-        low = (RadioButton)  findViewById(R.id.lowPriority);
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -106,10 +73,7 @@ public class SecondActivity extends AppCompatActivity {
 
 
             }
-
         });
-        createNotificationChannels();
-
 
     }
 
@@ -183,77 +147,4 @@ public class SecondActivity extends AppCompatActivity {
         dateView.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
     }
-
-    public void sendNotification(View v) {
-
-    if(high.isChecked()){
-        sendOnChannel1();
-        //Toast.makeText(this,"hi",Toast.LENGTH_LONG).show();
-    }
-
-    if(low.isChecked()){
-            sendOnChannel2();
-            //Toast.makeText(this,"hi",Toast.LENGTH_LONG).show();
-        }
-
-
-
-    }
-
-        public void sendOnChannel1( ) {
-        //String title = editTextTitle.getText().toString();
-       // String message = editTextMessage.getText().toString();
-            Log.i("sendOnChannel1", "sendOnChannel1: ");
-            String titlee = "hiii";
-            String message = "yaaaay";
-
-            Notification notification = new NotificationCompat.Builder(this,CHANNEL_1_ID)
-       // Notification notification = new NotificationCompat.Builder( this, CHANNEL_1_ID)
-                //.setSmallIcon(R.drawable.ic_one)
-                .setContentTitle(titlee)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-            Log.i("sendOnChannel1", String.valueOf(notification));
-            notificationManager.notify(1, notification);
-            //Log.e(sendOnChannel1, "sendOnChannel1: ", );
-            Log.i("sendOnChannel1", "sendOnChannel1: 50 ");
-    }
-
-    public void sendOnChannel2( ) {
-        //String title = editTextTitle.getText().toString();
-       // String message = editTextMessage.getText().toString();
-        Log.i("sendOnChannel1", "sendOnChannel1: ");
-        String titlee = "hiii this is 2";
-        String message = "yaaaay 222";
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
-                //.setSmallIcon(R.drawable.ic_one)
-                .setContentTitle(titlee)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-        notificationManager.notify(2, notification);
-    }
-
-    private void createNotificationChannels(){
-
-        Log.i("sendOnChannel1", "createNotificationChannels: 89 ");
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
-        {
-            NotificationChannel channel1 = new NotificationChannel(
-                    CHANNEL_1_ID,"Channel 1",
-                    NotificationManager.IMPORTANCE_HIGH);
-            channel1.setDescription("Reminder1");
-            NotificationChannel channel2 = new NotificationChannel(
-                    CHANNEL_2_ID,"Channel 2",
-                    NotificationManager.IMPORTANCE_LOW);
-            channel2.setDescription("Reminder2");
-            Log.i("sendOnChannel1", String.valueOf(channel1));
-            NotificationManager manager = (NotificationManager) getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel1);
-            manager.createNotificationChannel(channel2);
-        }}
-
 }
